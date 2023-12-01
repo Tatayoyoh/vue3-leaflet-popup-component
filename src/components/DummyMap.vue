@@ -3,25 +3,25 @@
               :useGlobalLeaflet="parameters.useGlobalLeaflet" :options="parameters.options">
               
             <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base"></l-tile-layer>
+            
 
-            <l-marker :latLng="[46.16794333707652,24.263992309570316]" >
-                <DummyPopup></DummyPopup> <!-- NOT WORKING -->
-            </l-marker>
-            <!-- Used to show unworking marker postition -->
-            <l-circle :latLng="[46.16794333707652,24.263992309570316]" :radius="2000" color="red"></l-circle>
-
-
+            <!-- NOT WORKING -->
             <l-marker :latLng="[45.98694349643096,24.393768310546875]" >
-                <DummyPopup></DummyPopup> <!-- NOT WORKING -->
+                <DummyPopup text="Hello I'm NOT working<br>My Marker is not showing :("></DummyPopup>
             </l-marker>
-            <!-- Used to show unworking marker postition -->
+            <!-- Red circle is used to show unworking marker postition -->
             <l-circle :latLng="[45.98694349643096,24.393768310546875]" :radius="2000" color="red"></l-circle>
 
 
-            <l-marker :latLng="[46.22545288226939,24.0380859375]">
-                <l-popup>
-                    Hello I'm working ! But others markers with component popup do not appear
-                </l-popup>
+            <!-- WORKAROUND set icon manually -->
+            <l-marker :latLng="[46.187912147928145,24.327163696289066]" >
+                <l-icon :icon-size="[48,48]" :icon-anchor="[24,48]" icon-url="start.svg" ></l-icon>
+                <DummyPopup text="Hello I'm the workaround !"></DummyPopup>
+            </l-marker>
+
+            <!-- NORMAL USAGEs -->
+            <l-marker :latLng="[46.214050815339526,24.16648864746094]">
+                <l-popup>Hello I'm working ! But others markers with component popup do not appear</l-popup>
             </l-marker>
     </l-map>
 </template>
@@ -29,11 +29,11 @@
 <script setup lang="ts">
     import "leaflet";
     import "leaflet/dist/leaflet.css";
-    import { LMap, LTileLayer, LMarker, LPopup, LCircle } from "@vue-leaflet/vue-leaflet";
+    import { LMap, LTileLayer, LMarker, LPopup, LCircle, LIcon } from "@vue-leaflet/vue-leaflet";
     import { ref } from "vue";
     import DummyPopup from '@/components/DummyPopup.vue'
 
-
+    const iconSize = 32;
     const map = ref()
   
     const props = defineProps({
@@ -47,6 +47,14 @@
               }
           },
       });
+
+    function dynamicSize () {
+      return [iconSize, iconSize * 1.15];
+    }
+
+    function dynamicAnchor () {
+        return [iconSize / 2, iconSize * 1.15];
+    }
 </script>
   
   
